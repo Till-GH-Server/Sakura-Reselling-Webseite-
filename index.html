@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sakura Reselling – Reselling, das aufblüht</title>
+<title>Sakura Reselling – Reselling that blossoms</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -92,51 +92,74 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media (max-width:860px){nav ul{display:none}.grid,.feat,.steps{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.hero{padding-top:56px}section{padding:64px 0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}h1 span{opacity:1;transform:none}html{scroll-behavior:auto}#petals{display:none}}
 #cat{display:none}.back{display:inline-block;margin-bottom:22px;color:var(--a1);font:600 .95rem var(--display)}.back:hover{text-decoration:underline}.go{font:600 .9rem var(--display);color:var(--a1)}.grid.cats{grid-template-columns:repeat(2,1fr)}.grid.items{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}@media (max-width:860px){.grid.cats{grid-template-columns:1fr}}
+
+/* First-visit language chooser */
+#language-gate{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(8,4,18,.78);backdrop-filter:blur(16px)}
+#language-gate.visible{display:flex}
+.language-box{width:min(100%,480px);padding:34px;border-radius:26px;background:var(--surface);border:1px solid var(--line);box-shadow:0 28px 90px rgba(0,0,0,.38);text-align:center}
+.language-mark{width:62px;height:62px;object-fit:cover;border-radius:50%;margin-bottom:16px;box-shadow:0 8px 28px color-mix(in srgb,var(--a1) 45%,transparent)}
+.language-box h2{font-size:clamp(1.6rem,5vw,2.1rem);margin-bottom:10px}
+.language-box p{color:var(--muted);margin:0 0 24px}
+.language-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.language-choice{min-height:58px;border-radius:16px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:700 1rem var(--display);cursor:pointer;transition:transform .2s,border-color .2s,background .2s}
+.language-choice:hover{transform:translateY(-2px);border-color:var(--a1)}
+.language-choice.primary{background:linear-gradient(120deg,#e0287a,#ff6fb0);border-color:transparent;color:white;box-shadow:0 8px 28px -8px #ff4f9a}
+.language-hint{display:block;margin-top:16px;color:var(--muted);font-size:.8rem}
+.lang-switch{min-width:48px;padding:0 12px;font:700 .82rem var(--display)}
+.product-category-count{font:700 .9rem var(--display);color:var(--muted)}
+.product-card .price{gap:12px}
+.product-card .price a{white-space:nowrap}
+@media (max-width:520px){.language-box{padding:26px 20px}.language-options{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<div id="language-gate" role="dialog" aria-modal="true" aria-labelledby="language-title">
+  <div class="language-box">
+    <img class="language-mark" src="assets/logo.gif" alt="Sakura Reselling">
+    <h2 id="language-title">Choose your language</h2>
+    <p id="language-subtitle">Select the language you want to use on Sakura Reselling.</p>
+    <div class="language-options">
+      <button class="language-choice primary" type="button" data-language="en">🇬🇧 English · Default</button>
+      <button class="language-choice" type="button" data-language="de">🇩🇪 Deutsch</button>
+    </div>
+    <small class="language-hint" id="language-hint">You can change this later in the top navigation.</small>
+  </div>
+</div>
 <canvas id="petals" aria-hidden="true"></canvas>
 <nav><div class="wrap">
   <a class="logo" href="#top"><img data-logo alt="Sakura Reselling Logo">Sakura Reselling</a>
-  <ul><li><a href="#produkte">Produkte</a></li><li><a href="#vorteile">Vorteile</a></li><li><a href="#ablauf">Ablauf</a></li><li><a href="#faq">FAQ</a></li></ul>
-  <div class="tools"><button class="btn icon" id="theme" aria-label="Farbschema wechseln">◐</button><a class="btn pri" href="#produkte">Jetzt kaufen</a></div>
+  <ul><li><a href="#produkte" data-i18n="navProducts">Products</a></li><li><a href="#vorteile" data-i18n="navBenefits">Benefits</a></li><li><a href="#ablauf" data-i18n="navSteps">How it works</a></li><li><a href="#faq">FAQ</a></li></ul>
+  <div class="tools"><button class="btn lang-switch" id="language-switch" type="button" aria-label="Change language">EN</button><button class="btn icon" id="theme" aria-label="Toggle color theme">◐</button><a class="btn pri" id="nav-buy" href="#produkte">Shop now</a></div>
 </div></nav>
 
 <header class="hero" id="top">
   <div class="glow" aria-hidden="true"></div>
   <div class="wrap">
     <h1 id="h1"></h1>
-    <p class="lead">Geprüfte Produkte, faire Preise und Lieferung in Sekunden – direkt über unseren Shop und Discord.</p>
-    <div class="cta"><a class="btn pri" href="#produkte">Produkte ansehen</a><a class="btn" href="https://discord.gg/Sakura-Reselling" target="_blank" rel="noopener">Discord beitreten</a></div>
+    <p class="lead" id="hero-lead">Curated products, fair prices and fast delivery — all through our shop and Discord.</p>
+    <div class="cta"><a class="btn pri" id="hero-products" href="#produkte">Browse products</a><a class="btn" id="hero-discord" href="https://discord.gg/Sakura-Reselling" target="_blank" rel="noopener">Join Discord</a></div>
     <div class="stage"><div class="frame" id="frame"><img data-banner alt="Sakura Reselling Banner"></div></div>
     <div class="stats">
-      <div><strong data-n="1000" data-s="+">0</strong><small>Mitglieder auf Discord</small></div>
-      <div><strong data-n="60" data-s=" s">0</strong><small>Ø Lieferzeit</small></div>
-      <div><strong data-n="99" data-s="%">0</strong><small>Positive Bewertungen</small></div>
-      <div><strong data-n="24" data-s="/7">0</strong><small>Support erreichbar</small></div>
+      <div><strong data-n="1000" data-s="+">0</strong><small data-i18n="statMembers">Discord members</small></div>
+      <div><strong data-n="60" data-s=" s">0</strong><small data-i18n="statDelivery">Average delivery</small></div>
+      <div><strong data-n="99" data-s="%">0</strong><small data-i18n="statReviews">Positive reviews</small></div>
+      <div><strong data-n="24" data-s="/7">0</strong><small data-i18n="statSupport">Support available</small></div>
     </div>
   </div>
 </header>
 
-<div class="marquee" aria-hidden="true"><div>
-  <span>Sofort-Lieferung</span><span>Sichere Zahlung</span><span>Geprüfte Qualität</span><span>Discord-Support</span><span>Faire Preise</span><span>Sofort-Lieferung</span><span>Sichere Zahlung</span><span>Geprüfte Qualität</span><span>Discord-Support</span><span>Faire Preise</span>
-</div></div>
+<div class="marquee" aria-hidden="true"><div id="marquee-content"></div></div></div>
 
 <section id="produkte"><div class="wrap">
-  <div class="head"><h2>Wähle deine Kategorie</h2><p>Öffne eine Kategorie und such dir darin dein Produkt aus.</p></div>
-  <div class="grid cats">
-    <a class="card" href="#vpn"><div class="ico">🔒</div><h3>VPN</h3><p>Anonym und sicher surfen – wähle deinen Anbieter.</p><div class="price"><span>2 Produkte</span><span class="go">Ansehen</span></div></a>
-    <a class="card" href="#fivem"><div class="ico">🎮</div><h3>FiveM</h3><p>Produkte rund um FiveM.</p><div class="price"><span>2 Produkte</span><span class="go">Ansehen</span></div></a>
-    <a class="card" href="#social-media"><div class="ico">📈</div><h3>Social Media Boost</h3><p>Mehr Reichweite für deine Kanäle.</p><div class="price"><span>3 Produkte</span><span class="go">Ansehen</span></div></a>
-    <a class="card" href="#counter-strike-2"><div class="ico">🔫</div><h3>Counter-Strike 2</h3><p>Produkte rund um Counter-Strike 2.</p><div class="price"><span>2 Produkte</span><span class="go">Ansehen</span></div></a>
-  </div>
-</div></section>
+  <div class="head"><h2 id="catalog-title">Browse our categories</h2><p id="catalog-description">Choose a category to explore the products available.</p></div>
+  <div class="grid cats" id="category-grid"></div>
+</div></section></div></section>
 
 <section id="cat"><div class="wrap" id="catbody"></div></section>
 
 <section id="vorteile"><div class="wrap">
-  <div class="head"><h2>Warum Sakura?</h2><p>Ein kurzer Kaufprozess und ein Service, auf den du dich verlassen kannst.</p></div>
-  <div class="feat">
+  <div class="head"><h2 id="benefits-title">Why Sakura?</h2><p id="benefits-description">A simple buying process and support you can count on.</p></div>
+  <div class="feat" id="benefits-grid">
     <div class="card"><h3>Sofortige Lieferung</h3><p>Dein Produkt kommt automatisch nach der Zahlung an – rund um die Uhr, auch am Wochenende.</p></div>
     <div class="card"><h3>Sichere Zahlung</h3><p>Zahlungen laufen über geprüfte Anbieter. Wir speichern keine Zahlungsdaten.</p></div>
     <div class="card"><h3>Persönlicher Support</h3><p>Fragen klären wir per Ticket im Discord, meist innerhalb weniger Minuten.</p></div>
@@ -145,8 +168,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </div></section>
 
 <section id="ablauf"><div class="wrap">
-  <div class="head"><h2>In drei Schritten zum Produkt</h2></div>
-  <div class="steps">
+  <div class="head"><h2 id="steps-title">Get your product in three steps</h2></div>
+  <div class="steps" id="steps-grid">
     <div class="card"><h3>Produkt wählen</h3><p>Such dir im Shop das passende Paket aus.</p></div>
     <div class="card"><h3>Sicher bezahlen</h3><p>Zahle bequem mit deiner bevorzugten Methode.</p></div>
     <div class="card"><h3>Sofort erhalten</h3><p>Dein Zugang landet automatisch in deinem Postfach.</p></div>
@@ -154,8 +177,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </div></section>
 
 <section id="faq"><div class="wrap">
-  <div class="head"><h2>Häufige Fragen</h2></div>
-  <div class="faq">
+  <div class="head"><h2 id="faq-title">Frequently asked questions</h2></div>
+  <div class="faq" id="faq-items">
     <details><summary>Wie schnell erhalte ich mein Produkt?</summary><p>In der Regel innerhalb von 60 Sekunden nach bestätigter Zahlung.</p></details>
     <details><summary>Welche Zahlungsarten gibt es?</summary><p>Die verfügbaren Methoden siehst du beim Bezahlen im Shop.</p></details>
     <details><summary>Was tun, wenn etwas nicht funktioniert?</summary><p>Öffne ein Ticket in unserem Discord. Wir ersetzen das Produkt oder erstatten den Betrag.</p></details>
@@ -165,72 +188,75 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section><div class="wrap"><div class="final">
   <img data-logo alt="">
-  <h2>Bereit für Sakura?</h2>
-  <p>Tritt unserem Discord bei und sichere dir dein Produkt in wenigen Sekunden.</p>
-  <a class="btn pri" href="https://discord.gg/Sakura-Reselling" target="_blank" rel="noopener">Discord beitreten</a>
+  <h2 id="final-title">Ready for Sakura?</h2>
+  <p id="final-description">Join our Discord and ask our team about the products available.</p>
+  <a class="btn pri" id="final-discord" href="https://discord.gg/Sakura-Reselling" target="_blank" rel="noopener">Join Discord</a>
 </div></div></section>
 
-<footer><div class="wrap"><span>© 2026 Sakura Reselling</span><span>Impressum · Datenschutz · AGB</span></div></footer>
+<footer><div class="wrap"><span>© 2026 Sakura Reselling</span><span id="footer-legal">Legal notice · Privacy · Terms</span></div></footer>
 
 <script>
 var LOGO="assets/logo.gif",BANNER="assets/banner.gif";
 (function(){
   document.querySelectorAll('[data-logo]').forEach(function(i){i.src=LOGO;});
   document.querySelectorAll('[data-banner]').forEach(function(i){i.src=BANNER;});
-  var words=[['Reselling,',0],['das',0],['aufblüht.',1]],h=document.getElementById('h1');
-  words.forEach(function(w,i){var s=document.createElement('span');s.textContent=w[0];s.style.setProperty('--i',i);if(w[1])s.className='g';h.appendChild(s);h.appendChild(document.createTextNode(' '));});
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.querySelectorAll('.card').forEach(function(c){c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');});});
-  var fr=document.getElementById('frame'),st=fr.parentNode;
-  st.addEventListener('pointermove',function(e){if(reduce)return;var r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;fr.style.transform='rotateY('+(x*10)+'deg) rotateX('+(-y*8)+'deg)';});
-  st.addEventListener('pointerleave',function(){fr.style.transform='';});
-  function run(el){var n=+el.dataset.n,s=el.dataset.s||'';if(reduce){el.textContent=n.toLocaleString('de-DE')+s;return;}var t0=performance.now();(function f(t){var p=Math.min((t-t0)/1600,1),e=1-Math.pow(1-p,4);el.textContent=Math.round(n*e).toLocaleString('de-DE')+s;if(p<1)requestAnimationFrame(f);})(t0);}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run(e.target);io.unobserve(e.target);}});},{threshold:.6});
-  document.querySelectorAll('[data-n]').forEach(function(el){io.observe(el);});
-  var root=document.documentElement;
-  document.getElementById('theme').addEventListener('click',function(){
-    var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
-    root.dataset.theme=dark?'light':'dark';
-    try{localStorage.setItem('sakura-theme',root.dataset.theme);}catch(e){}
-  });
-  try{var t=localStorage.getItem('sakura-theme');if(t)root.dataset.theme=t;}catch(e){}
   var DC='https://discord.gg/Sakura-Reselling';
-  var CATS={
-    'vpn':{t:'VPN',d:'Wähle deinen VPN-Anbieter.',e:'🔒',i:[['Proton VPN','Anbieter mit Sitz in der Schweiz.'],['Mullvad','Anbieter aus Schweden.']]},
-    'fivem':{t:'FiveM',d:'Produkte rund um FiveM.',e:'🎮',i:[['Mod-Menü','Platzhalter – hier kommt deine Beschreibung hin.'],['Skript-Pakete','Platzhalter – hier kommt deine Beschreibung hin.']]},
-    'social-media':{t:'Social Media Boost',d:'Mehr Reichweite für deine Kanäle.',e:'📈',i:[['Instagram','Platzhalter – hier kommt deine Beschreibung hin.'],['TikTok','Platzhalter – hier kommt deine Beschreibung hin.'],['YouTube','Platzhalter – hier kommt deine Beschreibung hin.']]},
-    'counter-strike-2':{t:'Counter-Strike 2',d:'Produkte rund um Counter-Strike 2.',e:'🔫',i:[['Software','Platzhalter – hier kommt deine Beschreibung hin.'],['Accounts','Platzhalter – hier kommt deine Beschreibung hin.']]}
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root=document.documentElement,language='en',languageGate=document.getElementById('language-gate');
+  var COPY={
+    en:{pageTitle:'Sakura Reselling – Reselling that blossoms',titleWords:['Reselling,','that','blossoms.'],navProducts:'Products',navBenefits:'Benefits',navSteps:'How it works',navBuy:'Shop now',heroLead:'Curated products, fair prices and fast delivery — all through our shop and Discord.',heroProducts:'Browse products',joinDiscord:'Join Discord',statMembers:'Discord members',statDelivery:'Average delivery',statReviews:'Positive reviews',statSupport:'Support available',marquee:['Fast delivery','Secure checkout','Curated products','Discord support','Fair prices'],catalogTitle:'Browse our categories',catalogDescription:'Choose a category to explore the products available.',viewProducts:'View products',productCount:'{n} products',benefitsTitle:'Why Sakura?',benefitsDescription:'A simple buying process and support you can count on.',benefits:[['⚡','Fast delivery','Receive your product details quickly after your order is confirmed.'],['🔒','Secure checkout','Available payment methods are shown during checkout.'],['💬','Personal support','Contact our team through a private Discord ticket.'],['🌸','Customer care','Our team is here to help with product questions and issues.']],stepsTitle:'Get your product in three steps',steps:[['Choose a product','Browse the categories and select the product you need.'],['Contact our team','Open a Discord ticket to ask about availability and payment.'],['Receive your order','Our team will guide you through the next steps.']],faqTitle:'Frequently asked questions',faq:[['How do I get a product?','Choose a product and contact our team through Discord for the current details.'],['Where can I see the prices?','Prices and availability are provided by our team in Discord.'],['What if I need help?','Open a ticket on our Discord server and our team will assist you.'],['Where can I contact you?','Join our Discord server and create a private support ticket.']],finalTitle:'Ready for Sakura?',finalDescription:'Join our Discord and ask our team about the products available.',footerLegal:'Legal notice · Privacy · Terms',chooseLanguage:'Choose your language',chooseDescription:'Select the language you want to use on Sakura Reselling.',languageHint:'You can change this later in the top navigation.',english:'🇬🇧 English · Default',german:'🇩🇪 Deutsch',back:'‹ All categories',productDescription:'Contact our team on Discord for product details, availability and pricing.',askDiscord:'Ask on Discord',contactLabel:'Details & pricing on request',productHeading:'Products in {category}',themeLabel:'Toggle color theme',switchLabel:'Change language'},
+    de:{pageTitle:'Sakura Reselling – Reselling, das aufblüht',titleWords:['Reselling,','das','aufblüht.'],navProducts:'Produkte',navBenefits:'Vorteile',navSteps:'So funktioniert’s',navBuy:'Zum Shop',heroLead:'Ausgewählte Produkte, faire Preise und schnelle Lieferung – direkt über unseren Shop und Discord.',heroProducts:'Produkte ansehen',joinDiscord:'Discord beitreten',statMembers:'Discord-Mitglieder',statDelivery:'Durchschnittliche Lieferung',statReviews:'Positive Bewertungen',statSupport:'Support erreichbar',marquee:['Schnelle Lieferung','Sicherer Checkout','Ausgewählte Produkte','Discord-Support','Faire Preise'],catalogTitle:'Entdecke unsere Kategorien',catalogDescription:'Wähle eine Kategorie aus, um die verfügbaren Produkte zu sehen.',viewProducts:'Produkte ansehen',productCount:'{n} Produkte',benefitsTitle:'Warum Sakura?',benefitsDescription:'Ein einfacher Kaufprozess und Support, auf den du dich verlassen kannst.',benefits:[['⚡','Schnelle Lieferung','Nach Bestätigung deiner Bestellung erhältst du schnell deine Produktinformationen.'],['🔒','Sicherer Checkout','Die verfügbaren Zahlungsmethoden werden beim Kauf angezeigt.'],['💬','Persönlicher Support','Kontaktiere unser Team über ein privates Discord-Ticket.'],['🌸','Kundenservice','Unser Team hilft dir bei Fragen zu Produkten und Problemen.']],stepsTitle:'In drei Schritten zu deinem Produkt',steps:[['Produkt auswählen','Durchsuche die Kategorien und wähle dein gewünschtes Produkt.'],['Team kontaktieren','Öffne ein Discord-Ticket und frage nach Verfügbarkeit und Bezahlung.'],['Bestellung erhalten','Unser Team begleitet dich bei den nächsten Schritten.']],faqTitle:'Häufig gestellte Fragen',faq:[['Wie bekomme ich ein Produkt?','Wähle ein Produkt aus und kontaktiere unser Team über Discord, um aktuelle Informationen zu erhalten.'],['Wo sehe ich die Preise?','Preise und Verfügbarkeit erhältst du von unserem Team auf Discord.'],['Was mache ich, wenn ich Hilfe brauche?','Eröffne ein Ticket auf unserem Discord-Server. Unser Team hilft dir weiter.'],['Wie kann ich euch erreichen?','Tritt unserem Discord-Server bei und erstelle ein privates Support-Ticket.']],finalTitle:'Bereit für Sakura?',finalDescription:'Tritt unserem Discord bei und frage unser Team nach den verfügbaren Produkten.',footerLegal:'Impressum · Datenschutz · AGB',chooseLanguage:'Wähle deine Sprache',chooseDescription:'Wähle die Sprache aus, die du auf Sakura Reselling verwenden möchtest.',languageHint:'Du kannst die Sprache später oben in der Navigation ändern.',english:'🇬🇧 English · Standard',german:'🇩🇪 Deutsch',back:'‹ Alle Kategorien',productDescription:'Kontaktiere unser Team auf Discord für Produktdetails, Verfügbarkeit und Preise.',askDiscord:'Auf Discord anfragen',contactLabel:'Details & Preise auf Anfrage',productHeading:'Produkte in {category}',themeLabel:'Farbschema wechseln',switchLabel:'Sprache ändern'}
   };
-  var homeEls=document.querySelectorAll('header.hero,.marquee,section:not(#cat)'),catEl=document.getElementById('cat'),cbody=document.getElementById('catbody'),baseTitle=document.title;
-  function route(){
-    var k=location.hash.slice(1),c=CATS[k];
-    if(c){
-      cbody.innerHTML='<a class="back" href="#produkte">‹ Alle Kategorien</a><div class="head"><h2>'+c.t+'</h2><p>'+c.d+'</p></div><div class="grid items">'+c.i.map(function(x){return '<article class="card"><div class="ico">'+c.e+'</div><h3>'+x[0]+'</h3><p>'+x[1]+'</p><div class="price">Preis folgt<a href="'+DC+'" target="_blank" rel="noopener">Im Discord kaufen</a></div></article>';}).join('')+'</div>';
-      cbody.querySelectorAll('.card').forEach(function(cd){cd.addEventListener('pointermove',function(e){var r=cd.getBoundingClientRect();cd.style.setProperty('--mx',(e.clientX-r.left)+'px');cd.style.setProperty('--my',(e.clientY-r.top)+'px');});});
-      homeEls.forEach(function(el){el.style.display='none';});catEl.style.display='block';document.title=c.t+' – Sakura Reselling';scrollTo(0,0);
-    }else{
-      catEl.style.display='';homeEls.forEach(function(el){el.style.display='';});document.title=baseTitle;
-      var t=k&&document.getElementById(k);if(t)t.scrollIntoView();
-    }
+  var CATS=[
+    {id:'vanity-x-ham',title:'Vanity x Ham',icon:'🎭',products:['Vanity-Menu','Ham-Executor','Ham-Vanity-Bundle']},
+    {id:'ambani',title:'Ambani',icon:'📦',products:['Ambani-FiveM','Ambani-Squad','Ambani-Valorant','Ambani-Ark-Evolved','Ambani-Ark-Ascended']},
+    {id:'discord',title:'Discord',icon:'💬',products:['Discord-Nitro','Discord-Server-Boost']},
+    {id:'vpn',title:'VPN',icon:'🛡️',products:['Mullvad-VPN']},
+    {id:'project-infinity-cs2',title:'Project Infinity (CS:2)',icon:'🎯',products:['Premium','Classic']},
+    {id:'social-media-boosts',title:'Social Media Boosts',icon:'📈',products:['TikTok-Boost','YouTube-Boost','Facebook-Boost','Instagram-Boost']}
+  ];
+  function addCardGlow(target){
+    target.querySelectorAll('.card').forEach(function(card){card.addEventListener('pointermove',function(event){var rect=card.getBoundingClientRect();card.style.setProperty('--mx',(event.clientX-rect.left)+'px');card.style.setProperty('--my',(event.clientY-rect.top)+'px');});});
   }
-  addEventListener('hashchange',route);route();
+  function renderMarquee(){
+    var el=document.getElementById('marquee-content'),repeated=COPY[language].marquee.concat(COPY[language].marquee);
+    el.innerHTML=repeated.map(function(item){return '<span>'+item+'</span>';}).join('');
+  }
+  function renderCategories(){
+    var target=document.getElementById('category-grid'),t=COPY[language];
+    target.innerHTML=CATS.map(function(cat){var count=t.productCount.replace('{n}',cat.products.length);return '<a class="card" href="#'+cat.id+'"><div class="ico">'+cat.icon+'</div><h3>'+cat.title+'</h3><p>'+count+'</p><div class="price"><span class="product-category-count">'+count+'</span><span class="go">'+t.viewProducts+'</span></div></a>';}).join('');addCardGlow(target);
+  }
+  function renderInfoSections(){
+    var t=COPY[language];
+    document.title=t.pageTitle;document.getElementById('hero-lead').textContent=t.heroLead;document.getElementById('hero-products').textContent=t.heroProducts;document.getElementById('hero-discord').textContent=t.joinDiscord;document.getElementById('nav-buy').textContent=t.navBuy;
+    document.querySelector('[data-i18n="navProducts"]').textContent=t.navProducts;document.querySelector('[data-i18n="navBenefits"]').textContent=t.navBenefits;document.querySelector('[data-i18n="navSteps"]').textContent=t.navSteps;
+    document.querySelector('[data-i18n="statMembers"]').textContent=t.statMembers;document.querySelector('[data-i18n="statDelivery"]').textContent=t.statDelivery;document.querySelector('[data-i18n="statReviews"]').textContent=t.statReviews;document.querySelector('[data-i18n="statSupport"]').textContent=t.statSupport;
+    document.getElementById('catalog-title').textContent=t.catalogTitle;document.getElementById('catalog-description').textContent=t.catalogDescription;document.getElementById('benefits-title').textContent=t.benefitsTitle;document.getElementById('benefits-description').textContent=t.benefitsDescription;document.getElementById('benefits-grid').innerHTML=t.benefits.map(function(x){return '<div class="card"><div class="ico">'+x[0]+'</div><h3>'+x[1]+'</h3><p>'+x[2]+'</p></div>';}).join('');
+    document.getElementById('steps-title').textContent=t.stepsTitle;document.getElementById('steps-grid').innerHTML=t.steps.map(function(x){return '<div class="card"><h3>'+x[0]+'</h3><p>'+x[1]+'</p></div>';}).join('');document.getElementById('faq-title').textContent=t.faqTitle;document.getElementById('faq-items').innerHTML=t.faq.map(function(x){return '<details><summary>'+x[0]+'</summary><p>'+x[1]+'</p></details>';}).join('');
+    document.getElementById('final-title').textContent=t.finalTitle;document.getElementById('final-description').textContent=t.finalDescription;document.getElementById('final-discord').textContent=t.joinDiscord;document.getElementById('footer-legal').textContent=t.footerLegal;document.getElementById('language-title').textContent=t.chooseLanguage;document.getElementById('language-subtitle').textContent=t.chooseDescription;document.getElementById('language-hint').textContent=t.languageHint;
+    document.querySelector('[data-language="en"]').textContent=t.english;document.querySelector('[data-language="de"]').textContent=t.german;document.getElementById('language-switch').textContent=language.toUpperCase();document.getElementById('language-switch').setAttribute('aria-label',t.switchLabel);document.getElementById('theme').setAttribute('aria-label',t.themeLabel);renderMarquee();renderCategories();
+  }
+  function renderCategoryRoute(){
+    var id=location.hash.slice(1),cat=CATS.find(function(item){return item.id===id;}),section=document.getElementById('cat'),body=document.getElementById('catbody'),home=document.querySelectorAll('header.hero,.marquee,section:not(#cat)');
+    if(!cat){section.style.display='';home.forEach(function(el){el.style.display='';});document.title=COPY[language].pageTitle;return;}
+    var t=COPY[language],html='<a class="back" href="#produkte">'+t.back+'</a><div class="head"><h2>'+t.productHeading.replace('{category}',cat.title)+'</h2><p>'+t.catalogDescription+'</p></div><div class="grid items">';
+    cat.products.forEach(function(product){html+='<article class="card product-card"><div class="ico">'+cat.icon+'</div><h3>'+product+'</h3><p>'+t.productDescription+'</p><div class="price"><span>'+t.contactLabel+'</span><a href="'+DC+'" target="_blank" rel="noopener">'+t.askDiscord+'</a></div></article>';});
+    body.innerHTML=html+'</div>';addCardGlow(body);home.forEach(function(el){el.style.display='none';});section.style.display='block';document.title=cat.title+' – Sakura Reselling';scrollTo(0,0);
+  }
+  function applyLanguage(next){language=next==='de'?'de':'en';document.documentElement.lang=language;renderInfoSections();renderCategoryRoute();}
+  function chooseLanguage(next){applyLanguage(next);try{localStorage.setItem('sakura-language',language);}catch(error){}languageGate.classList.remove('visible');}
+  document.querySelectorAll('[data-language]').forEach(function(button){button.addEventListener('click',function(){chooseLanguage(button.dataset.language);});});document.getElementById('language-switch').addEventListener('click',function(){chooseLanguage(language==='en'?'de':'en');});
+  var savedLanguage=null;try{savedLanguage=localStorage.getItem('sakura-language');}catch(error){}applyLanguage(savedLanguage==='de'?'de':'en');if(savedLanguage!=='en'&&savedLanguage!=='de')languageGate.classList.add('visible');
+  var frame=document.getElementById('frame'),stage=frame.parentNode;stage.addEventListener('pointermove',function(event){if(reduce)return;var rect=stage.getBoundingClientRect(),x=(event.clientX-rect.left)/rect.width-.5,y=(event.clientY-rect.top)/rect.height-.5;frame.style.transform='rotateY('+(x*10)+'deg) rotateX('+(-y*8)+'deg)';});stage.addEventListener('pointerleave',function(){frame.style.transform='';});
+  function animateCounter(el){var n=+el.dataset.n,s=el.dataset.s||'';if(reduce){el.textContent=n.toLocaleString(language==='de'?'de-DE':'en-US')+s;return;}var start=performance.now();(function step(now){var p=Math.min((now-start)/1600,1),e=1-Math.pow(1-p,4);el.textContent=Math.round(n*e).toLocaleString(language==='de'?'de-DE':'en-US')+s;if(p<1)requestAnimationFrame(step);})(start);}
+  var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){animateCounter(entry.target);observer.unobserve(entry.target);}});},{threshold:.6});document.querySelectorAll('[data-n]').forEach(function(el){observer.observe(el);});
+  document.getElementById('theme').addEventListener('click',function(){var dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;root.dataset.theme=dark?'light':'dark';try{localStorage.setItem('sakura-theme',root.dataset.theme);}catch(error){}});try{var savedTheme=localStorage.getItem('sakura-theme');if(savedTheme)root.dataset.theme=savedTheme;}catch(error){}addEventListener('hashchange',renderCategoryRoute);
   if(reduce)return;
-  var cv=document.getElementById('petals'),cx=cv.getContext('2d'),W,H,P=[],N=26;
-  function size(){var d=window.devicePixelRatio||1;W=cv.width=innerWidth*d;H=cv.height=innerHeight*d;}
-  size();addEventListener('resize',size);
-  function mk(init){var d=window.devicePixelRatio||1;return{x:Math.random()*W,y:init?Math.random()*H:-30*d,s:(6+Math.random()*9)*d,v:(.5+Math.random()*1)*d,sw:Math.random()*6,a:Math.random()*6,r:Math.random()*6,rv:(Math.random()-.5)*.03,o:.35+Math.random()*.5};}
-  for(var i=0;i<N;i++)P.push(mk(true));
-  (function loop(){
-    cx.clearRect(0,0,W,H);
-    P.forEach(function(p,i){
-      p.y+=p.v;p.a+=.015;p.x+=Math.sin(p.a)*p.sw*.25;p.r+=p.rv;
-      if(p.y>H+30){P[i]=mk(false);return;}
-      cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.scale(1,.7+Math.sin(p.a*2)*.3);cx.globalAlpha=p.o;
-      cx.fillStyle='#ff9ec8';cx.beginPath();cx.moveTo(0,-p.s);cx.bezierCurveTo(p.s,-p.s*.6,p.s*.7,p.s*.8,0,p.s);cx.bezierCurveTo(-p.s*.7,p.s*.8,-p.s,-p.s*.6,0,-p.s);cx.fill();cx.restore();
-    });
-    requestAnimationFrame(loop);
-  })();
+  var canvas=document.getElementById('petals'),ctx=canvas.getContext('2d'),W,H,petals=[],count=26;function resize(){var d=window.devicePixelRatio||1;W=canvas.width=innerWidth*d;H=canvas.height=innerHeight*d;}resize();addEventListener('resize',resize);
+  function makePetal(initial){var d=window.devicePixelRatio||1;return{x:Math.random()*W,y:initial?Math.random()*H:-30*d,s:(6+Math.random()*9)*d,v:(.5+Math.random())*d,sw:Math.random()*6,a:Math.random()*6,r:Math.random()*6,rv:(Math.random()-.5)*.03,o:.35+Math.random()*.5};}for(var index=0;index<count;index++)petals.push(makePetal(true));
+  (function animate(){ctx.clearRect(0,0,W,H);petals.forEach(function(petal,index){petal.y+=petal.v;petal.a+=.015;petal.x+=Math.sin(petal.a)*petal.sw*.25;petal.r+=petal.rv;if(petal.y>H+30){petals[index]=makePetal(false);return;}ctx.save();ctx.translate(petal.x,petal.y);ctx.rotate(petal.r);ctx.scale(1,.7+Math.sin(petal.a*2)*.3);ctx.globalAlpha=petal.o;ctx.fillStyle='#ff9ec8';ctx.beginPath();ctx.moveTo(0,-petal.s);ctx.bezierCurveTo(petal.s,-petal.s*.6,petal.s*.7,petal.s*.8,0,petal.s);ctx.bezierCurveTo(-petal.s*.7,petal.s*.8,-petal.s,-petal.s*.6,0,-petal.s);ctx.fill();ctx.restore();});requestAnimationFrame(animate);})();
 })();
 </script>
+</body></script>
 </body>
 </html>
